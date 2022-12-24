@@ -1,0 +1,25 @@
+<svg id="svg_css_ex1" viewBox="0 0 100 100" 
+   height="20cm"
+   width="20cm"
+   xmlns="http://www.w3.org/2000/svg">
+  <path
+    fill="none"
+    stroke="black"
+    stroke-width="0.01"
+    d="
+      M 5 5
+      c -1,0 -1,0 1,2
+      c -1,0 -1,0 1,-2
+      c -1,0 -1,0 1,2
+      c -1,0 -1,0 1,-2
+    " />
+  <path
+    fill="none"
+    stroke="red"
+    d="M 20,0
+           C -5,0 55,50 30,50
+           C 5,50 65,0 40,0
+           C 15,0 75,50 50,50
+           C 25,50 85,0 60,0
+           "/>
+</svg>
