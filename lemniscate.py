@@ -72,6 +72,80 @@ def MakeSVG():
 	svg += SVGFOOTER
 	return svg
 
+def MakeVeryCoolThing():
+	svg = SVGHEADER
+	svg += PATHHEADER
+
+	xstep = 0.5
+	yoffset = 5
+	x = 1
+	y = 50
+	bmag = 0.5
+
+	yoffset = 50 - abs(50-x)
+	svg += Make1stArcMoveCommand((x,y-yoffset))
+
+	while x < 99:
+		yoffset = 50 - abs(50-x)
+		bmag = yoffset * 0.4
+
+		x0 = x
+		x1 = x + xstep / 2
+		y0 = y - yoffset
+		y1 = y + yoffset
+		bx0 = x - bmag
+		bx1 = x1 + bmag
+		svg += 'C {},{} {},{} {},{}'.format(bx0,y0,bx1,y1,x1,y1)
+		x2 = x + xstep
+		y2 = y - yoffset
+		bx1 = x1 - bmag
+		bx2 = x2 + bmag
+		svg += 'C {},{} {},{} {},{}'.format(bx1,y1,bx2,y2,x2,y2)
+		x = x2
+
+		# yoffset -= 0.3
+
+	svg += PATHFOOTER
+	svg += SVGFOOTER
+	return svg
+
+def MakeTreeSVG():
+	svg = SVGHEADER
+	svg += PATHHEADER
+
+	xstep = 7
+	yoffset = 5
+	x = 1
+	y = 50
+	bmag = 0.5
+
+	yoffset = 20 if x < 20 else (100 - x)*0.61803399
+	svg += Make1stArcMoveCommand((x,y-yoffset))
+
+	while x < 99:
+		yoffset = 10 if x < 20 else (100 - x)*0.61803399
+		bmag = yoffset * 0.4
+
+		x0 = x
+		x1 = x + xstep / 2
+		y0 = y - yoffset
+		y1 = y + yoffset
+		bx0 = x - bmag
+		bx1 = x1 + bmag
+		svg += 'C {},{} {},{} {},{}'.format(bx0,y0,bx1,y1,x1,y1)
+		x2 = x + xstep
+		y2 = y - yoffset
+		bx1 = x1 - bmag
+		bx2 = x2 + bmag
+		svg += 'C {},{} {},{} {},{}'.format(bx1,y1,bx2,y2,x2,y2)
+		x = x2
+
+		# yoffset -= 0.3
+
+	svg += PATHFOOTER
+	svg += SVGFOOTER
+	return svg
+
 
 
 parser = argparse.ArgumentParser(description='make a spiral svg image')
@@ -79,4 +153,4 @@ parser.add_argument('out', help='path to save to')
 args = parser.parse_args()
 
 with open(args.out, 'w') as fileobj:
-	fileobj.write(MakeSVG())
+	fileobj.write(MakeVeryCoolThing())
