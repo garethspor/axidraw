@@ -146,6 +146,54 @@ def MakeTreeSVG():
 	svg += SVGFOOTER
 	return svg
 
+def ExperimentA():
+	svg = SVGHEADER
+	svg += PATHHEADER
+
+	points = []
+	thetaStep = 5
+	for theta in np.arange(0,180.0, thetaStep):
+		thetaRad = math.pi * theta / 180.0
+		x = math.cos(thetaRad)
+		y = math.sin(thetaRad)
+		points.append((x,y))
+
+		theta += thetaStep / 2
+		theta *= -1
+
+		thetaRad = math.pi * theta / 180.0
+		x = math.cos(thetaRad)
+		y = math.sin(thetaRad)
+		points.append((x,y))
+
+	scale = 5
+	xOrigin = 50
+	yOrigin = 50
+
+	bezScale = .2
+
+	bezAPoints = [(x+y*bezScale*abs(y),y-x*bezScale*abs(y)) for x,y in points]
+	bezBPoints = [(x-y*bezScale*abs(y),y+x*bezScale*abs(y)) for x,y in points]
+
+
+	ScaledPoints = [(x*scale+xOrigin,y*scale+yOrigin) for x,y in points]
+	bezAPoints = [(x*scale+xOrigin,y*scale+yOrigin) for x,y in bezAPoints]
+	bezBPoints = [(x*scale+xOrigin,y*scale+yOrigin) for x,y in bezBPoints]
+
+	svg += Make1stArcMoveCommand(ScaledPoints[0])
+	for i in range(len(ScaledPoints) - 1):
+		x0,y0 = ScaledPoints[i]
+		x1,y1 = ScaledPoints[i + 1]
+		ox0,oy0 = points[i] 
+		ox1,oy1 = points[i + 1] 
+		bx0,by0 = bezAPoints[i]     if oy0 > 0 else bezBPoints[i]
+		bx1,by1 = bezBPoints[i + 1] if oy1 > 0 else bezAPoints[i + 1]
+		svg += 'C {},{} {},{} {},{}\n'.format(bx0,by0,bx1,by1,x1,y1)
+
+	svg += PATHFOOTER
+	svg += SVGFOOTER
+	return svg
+
 
 
 parser = argparse.ArgumentParser(description='make a spiral svg image')
@@ -153,4 +201,4 @@ parser.add_argument('out', help='path to save to')
 args = parser.parse_args()
 
 with open(args.out, 'w') as fileobj:
-	fileobj.write(MakeVeryCoolThing())
+	fileobj.write(ExperimentA())

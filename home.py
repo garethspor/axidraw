@@ -12,8 +12,9 @@ if not connected:
     sys.exit() # end script
 
 ad.options.units = 1
-ad.options.speed_penup = 100
-ad.options.pen_pos_up = 50
+ad.options.speed_penup = 10
+ad.options.speed_pendown = 10
+ad.options.pen_pos_up = 80
 ad.options.pen_pos_down = 20
 ad.update()
 
